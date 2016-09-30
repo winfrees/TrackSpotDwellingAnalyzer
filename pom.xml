@@ -12,13 +12,25 @@
 		<relativePath />
 	</parent>
 
-	<artifactId>TrackMate_examples</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<artifactId>TrackSpotDwellingAnalyzer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
-	<name>plugins/TrackMate_examples.jar</name>
-	<description>A Maven project with the bare structure to hold TrackMate modules.</description>
+	<name>TrackSpotDwellingAnalyzer</name>
+	<description>A Maven project with a pause/dwell analyzer for TrackMate</description>
 
 	<developers>
+            		<developer>
+			<id>winfrees</id>
+			<name>Seth Winfree</name>
+			<email>winfrees@iu.edu</email>
+			<url>http://medicine.iupui.edu/ICBM</url>
+			<organization>Indiana University Medical School</organization>
+			<organizationUrl>http://medicine.iu.edu</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 		<developer>
 			<id>tinevez</id>
 			<name>Jean-Yves Tinevez</name>
@@ -47,20 +59,9 @@
 		</developer>
 	</developers>
 
-	<scm>
-		<connection>scm:git:git://github.com/fiji/TrackMate-examples</connection>
-		<developerConnection>scm:git:git@github.com:fiji/TrackMate-exmaples</developerConnection>
-		<tag>HEAD</tag>
-		<url>scm:git:git@github.com:fiji/TrackMate-examples</url>
-	</scm>
-	<ciManagement>
-		<system>Jenkins</system>
-		<url>http://jenkins.imagej.net/job/TrackMate-examples/</url>
-	</ciManagement>
 
-	<properties>
-		<imagej.app.directory>/Users/vinfrais/Desktop/Fiji.app</imagej.app.directory>
-	</properties>
+
+
 
 	<repositories>
 		<!-- NB: for project parent -->
@@ -100,14 +101,71 @@
 		</dependency>
 
 		<!-- Third party dependencies -->
-		<dependency>
-			<groupId>net.sf.jgrapht</groupId>
-			<artifactId>jgrapht</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-		</dependency>
 	</dependencies>
+        
+         <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.build.sourceDirectory}</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>${project.build.testSourceDirectory}</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>SpotDwellingAnalyzer.TrackSpotDwellingAnalyzer</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>SpotDwellingAnalyzer.TrackSpotDwellingAnalyzer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>  
 
 </project>
